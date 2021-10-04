@@ -1,5 +1,10 @@
 class TextHexes:
 	
+	var _hex_class = load("res://RedBlob Hex/Point.gd")
+	
+	func new_hex(q, r, s):
+		return _hex_class.new(q, r, s)
+		
 	func complain(name):
 		print("FAIL {0}".format(name))
 
@@ -23,19 +28,19 @@ class TextHexes:
 		equal_int(name, len(a), len(b))
 		for i in range(0, len(a)):
 			equal_hex(name, a[i], b[i])
-
+			
 	func test_hex_arithmetic():
-		equal_hex("hex_add", Hex(4, -10, 6), hex_add(Hex(1, -3, 2), Hex(3, -7, 4)))
-		equal_hex("hex_subtract", Hex(-2, 4, -2), hex_subtract(Hex(1, -3, 2), Hex(3, -7, 4)))
+		equal_hex("hex_add", new_hex(4, -10, 6), hex_add(new_hex(1, -3, 2), new_hex(3, -7, 4)))
+		equal_hex("hex_subtract", new_hex(-2, 4, -2), hex_subtract(new_hex(1, -3, 2), new_hex(3, -7, 4)))
 
 	func test_hex_direction():
-		equal_hex("hex_direction", Hex(0, -1, 1), hex_direction(2))
+		equal_hex("hex_direction", new_hex(0, -1, 1), hex_direction(2))
 
 	func test_hex_neighbor():
-		equal_hex("hex_neighbor", Hex(1, -3, 2), hex_neighbor(Hex(1, -2, 1), 2))
+		equal_hex("hex_neighbor", new_hex(1, -3, 2), hex_neighbor(new_hex(1, -2, 1), 2))
 
 	func test_hex_diagonal():
-		equal_hex("hex_diagonal", Hex(-1, -1, 2), hex_diagonal_neighbor(Hex(1, -2, 1), 3))
+		equal_hex("hex_diagonal", new_hex(-1, -1, 2), hex_diagonal_neighbor(new_hex(1, -2, 1), 3))
 
 	func test_hex_distance():
 		equal_int("hex_distance", 7, hex_distance(Hex(3, -7, 4), Hex(0, 0, 0)))

@@ -1,3 +1,15 @@
+########## i have failed to translate RedBlob's hex library to gdscript
+
+# here are links to different language implementations
+# C#: 			https://www.redblobgames.com/grids/hexagons/codegen/output/lib.cs
+# typescript: 	https://www.redblobgames.com/grids/hexagons/codegen/output/lib.ts
+# Python: 		https://www.redblobgames.com/grids/hexagons/codegen/output/lib.py
+
+# note: i have left out the funcionts for "offset" and "doubled" coordinate systems for hexes
+# i think we should we use the Axial/Cube coordinate system.
+
+
+
 class Hex:
 	
 	var _q
@@ -10,22 +22,24 @@ class Hex:
 
 	func _init(q, r, s):
 		assert(int(q + r + s) == 0)
-		return _Hex(q, r, s)
+		_q = q
+		_r = r
+		_s = s
 
 	func hex_add(a, b):
-		return Hex(a.q + b.q, a.r + b.r, a.s + b.s)
+		return _init(a.q + b.q, a.r + b.r, a.s + b.s)
 
 	func hex_subtract(a, b):
-		return Hex(a.q - b.q, a.r - b.r, a.s - b.s)
+		return _init(a.q - b.q, a.r - b.r, a.s - b.s)
 
 	func hex_scale(a, k):
-		return Hex(a.q * k, a.r * k, a.s * k)
+		return _init(a.q * k, a.r * k, a.s * k)
 
 	func hex_rotate_left(a):
-		return Hex(-a.s, -a.q, -a.r)
+		return _init(-a.s, -a.q, -a.r)
 
 	func hex_rotate_right(a):
-		return Hex(-a.r, -a.s, -a.q)
+		return _init(-a.r, -a.s, -a.q)
 	
 	func hex_direction(direction):
 		return hex_directions[direction]
@@ -43,12 +57,12 @@ class Hex:
 		return hex_length(hex_subtract(a, b))
 
 	func hex_round(h):
-		qi = int(round(h.q))
-		ri = int(round(h.r))
-		si = int(round(h.s))
-		q_diff = abs(qi - h.q)
-		r_diff = abs(ri - h.r)
-		s_diff = abs(si - h.s)
+		var qi = int(round(h.q))
+		var ri = int(round(h.r))
+		var si = int(round(h.s))
+		var q_diff = abs(qi - h.q)
+		var r_diff = abs(ri - h.r)
+		var s_diff = abs(si - h.s)
 		if q_diff > r_diff and q_diff > s_diff:
 			qi = -ri - si
 		else:
@@ -56,17 +70,17 @@ class Hex:
 				ri = -qi - si
 			else:
 				si = -qi - ri
-		return Hex(qi, ri, si)
+		return _init(qi, ri, si)
 
 	func hex_lerp(a, b, t):
-		return Hex(a.q * (1.0 - t) + b.q * t, a.r * (1.0 - t) + b.r * t, a.s * (1.0 - t) + b.s * t)
+		return _init(a.q * (1.0 - t) + b.q * t, a.r * (1.0 - t) + b.r * t, a.s * (1.0 - t) + b.s * t)
 
 	func hex_linedraw(a, b):
-		N = hex_distance(a, b)
-		a_nudge = Hex(a.q + 1e-06, a.r + 1e-06, a.s - 2e-06)
-		b_nudge = Hex(b.q + 1e-06, b.r + 1e-06, b.s - 2e-06)
-		results = []
-		step = 1.0 / max(N, 1)
+		var N = hex_distance(a, b)
+		var a_nudge = _init(a.q + 1e-06, a.r + 1e-06, a.s - 2e-06)
+		var b_nudge = _init(b.q + 1e-06, b.r + 1e-06, b.s - 2e-06)
+		var results = []
+		var step = 1.0 / max(N, 1)
 		for i in range(0, N + 1):
 			results.append(hex_round(hex_lerp(a_nudge, b_nudge, step * i)))
 		return results

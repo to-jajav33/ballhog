@@ -1,6 +1,4 @@
-
 class Orientation:
-	
 	var _f0
 	var _f1
 	var _f2

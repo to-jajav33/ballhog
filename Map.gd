@@ -2,6 +2,4 @@ extends Node
 
 
 func _ready():
-	pass # Replace with function body.
-
-
+	var the_test = load("res://RedBlob Hex/TestHexes.gd").new()
